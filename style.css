@@ -122,7 +122,8 @@ header h1 {
     color: #ddd;
     margin-bottom: 4px;
     line-height: 1.2;
-    white-space: pre-line; /* IMPORTANTE: Respeta los Alt+Enter del Excel */
+    white-space: normal; /* Cambiado para que funcione con <br> */
+    display: block; /* Asegurar que se comporte como bloque */
 }
 
 /* --- CLASE ESPECÍFICA PARA EL PRECIO OPCIONAL --- */
