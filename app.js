@@ -59,7 +59,7 @@ fetch(GOOGLE_SHEET_URL)
             // --- LECTURA DE COLUMNAS (APLICANDO FORMATO) ---
             const title = formatearTexto(celdas[0]);
             const imagenUrl = celdas[1];
-            const specsRaw = celdas[2]; // parseSpecs ya aplicará formato
+            const specsRaw = formatearTexto(celdas[2]); // parseSpecs ya aplicará formato
             const mla = celdas[3];
             const stockPlaceholder = celdas[4];
             
@@ -155,3 +155,4 @@ fetch(GOOGLE_SHEET_URL)
         console.error('¡Error al cargar el catálogo!', error);
         contenedor.innerHTML = '<p>Error al cargar productos. Intente más tarde.</p>';
     });
+
