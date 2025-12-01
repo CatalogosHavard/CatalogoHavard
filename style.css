@@ -130,18 +130,40 @@ header h1 {
     background-color: #555;
 }
 
-/* --- COLORES DE TEXTO PERSONALIZADOS (GLOBALES) --- */
+/* --- COLORES DE TEXTO PERSONALIZADOS (MEJORADOS CON !important) --- */
 .texto-rojo {
-    color: #ff6b6b;
-    font-weight: 800;
+    color: #ff6b6b !important;
+    font-weight: 800 !important;
 }
+
 .texto-verde {
-    color: #69f0ae;
-    font-weight: 800;
+    color: #51ff00 !important;
+    font-weight: 800 !important;
 }
+
 .texto-tachado {
-    text-decoration: line-through;
-    color: #bbb;
+    text-decoration: line-through !important;
+    color: #bbb !important;
+}
+
+/* Asegurar que funcionen también dentro de las cajas de precios */
+.price-box .texto-rojo,
+.stock-box .texto-rojo,
+.sku-box .texto-rojo {
+    color: #ff6b6b !important;
+}
+
+.price-box .texto-verde,
+.stock-box .texto-verde,
+.sku-box .texto-verde {
+    color: #51ff00 !important;
+}
+
+.price-box .texto-tachado,
+.stock-box .texto-tachado,
+.sku-box .texto-tachado {
+    text-decoration: line-through !important;
+    color: #bbb !important;
 }
 
 /* --- LEYENDA FLOTANTE Y PIE DE PÁGINA --- */
@@ -260,7 +282,7 @@ header h1 {
         left: 0;
         right: 0;
         bottom: 0;
-        border-radius: 0; /* Corregido error de sintaxis */
+        border-radius: 0;
         box-shadow: none;
         text-align: center;
         background-color: rgba(192, 35, 44, 0.75);
