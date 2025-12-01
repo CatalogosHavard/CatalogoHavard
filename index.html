@@ -1,0 +1,82 @@
+<!DOCTYPE html><html lang="es"><head>
+    <meta charset="UTF-8">	
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title style="">Catálogo Gelopar 2025</title>
+	<link href="https://fonts.googleapis.com" rel="preconnect">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+	<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,847;1,847&amp;display=swap" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+	<link rel="apple-touch-icon" href="img/apple-touch-icon.png"> 
+	<link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="img/favicon-16x16.png">
+</head>
+<body>
+
+    <header>
+              <h1><strong> CATALOGO MAYORISTA</strong></h1>
+    </header>
+
+    <main>
+        <div id="catalogo-container">
+            <p>Cargando productos...</p>
+        </div>
+    </main> <footer class="site-footer">
+        <div class="footer-content">
+            <div class="footer-left">
+                <p><strong>Las condiciones de venta seran las siguientes:</strong></p>
+                <ul>
+                    <li>30-60-90-120 Precio Neto</li>
+                    <li>30-60-90 Descuento 3%</li>
+                    <li>30-60 Descuento 5%</li>
+                    <li>Pago Contado 8%</li>
+                </ul>
+                <p>Por reserva y adelanto de cheques se aplica un 3% extra.</p>
+            </div>
+            <div class="footer-right">
+                <p>DOLAR TIPO VENDEDOR BANCO NACION</p>
+                <div class="footer-logo">
+                    HAVARD.COM.AR
+                </div>
+            </div>
+        </div>
+    </footer>
+	<div class="leyenda-flotante" id="leyenda-flotante">
+        LAS CONDICIONES DE VENTA SERÁN LAS SIGUIENTES:<br>
+		30-60-90-120 PRECIO NETO<br>
+30-60-90 DESCUENTO 3%<br>
+30-60 DESCUENTO 5%<br>
+PAGO CONTADO 8%<br>
+		<br>
+POR RESERVA Y ADELANTO DE CHEQUES SE APLICA UN 3% EXTRA
+		<span class="cerrar-leyenda" id="cerrar-leyenda-btn">&times;</span>
+    </div>
+    <script src="app.js" defer></script>
+
+    <script>
+        // Espera a que la página se cargue
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            // 1. Encontramos el botón "X" por su ID
+            const closeButton = document.getElementById('cerrar-leyenda-btn');
+            
+            // 2. Encontramos la leyenda flotante por su ID
+            const legendBox = document.getElementById('leyenda-flotante');
+
+            // 3. Nos aseguramos de que existan
+            if (closeButton && legendBox) {
+                
+                // 4. Cuando se haga clic en la "X"...
+                closeButton.onclick = function() {
+                    // ...ocultamos la leyenda completa.
+                    legendBox.style.display = 'none';
+                }
+            }
+        });
+    </script>
+
+</body> </html>
+
+
+
+
+

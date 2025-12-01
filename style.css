@@ -1,0 +1,271 @@
+/* Estilos generales */
+body {
+    font-family: Montserrat, sans-serif;
+    margin: 0;
+    background-color: #f4f4f4;
+}
+
+/* --- ESTILOS DEL HEADER (Banner) --- */
+header {
+    background-image: url("img/banner.svg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    height: 250px;
+    color: #FFFFFF;
+    padding: 20px 64px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+header h1 {
+    padding-top: 11px;
+    padding-right: 36px;
+    padding-left: 11px;
+    padding-bottom: 29px;
+}
+
+/* --- ESTILOS DEL CATÁLOGO --- */
+#catalogo-container {
+    max-width: 900px;
+    margin: 20px auto;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+/* --- 1. La Ficha de Producto Entera --- */
+.producto-card {
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    border-top: 5px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* --- 2. Sección Superior (Imagen + Specs) --- */
+.product-main-info {
+    display: grid;
+    grid-template-columns: 40% 1fr; 
+    gap: 25px; 
+    padding: 20px;
+}
+
+.product-image {
+    position: relative; /* Clave: para que la leyenda flote DENTRO de esta caja */
+}
+
+.product-image img {
+    width: 100%;
+    height: auto;
+}
+
+.product-details h2 {
+    margin-top: 0;
+    font-size: 24px;
+    font-weight: 700;
+    color: #333;
+    line-height: 1.3;
+}
+
+.specs-list {
+    list-style: none;
+    padding-left: 0;
+    font-size: 14px;
+    line-height: 1.7; 
+    color: #444;
+}
+
+.specs-list li {
+    margin-bottom: 8px;
+}
+
+.specs-list li strong {
+    color: #000;
+}
+
+/* --- 3. Sección Inferior (Stock, SKU, Precios) --- */
+.product-meta-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+    text-align: center;
+    font-weight: bold;
+    border-top: 1px solid #ddd;
+}
+
+/* Estilo Base para TODAS las cajas */
+.stock-box, .sku-box, .price-box, .mayorista-box {
+    background-color: #707070;
+    color: white;
+    padding: 12px 5px;
+    font-size: 15px; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-left: 1px solid #888;
+    min-height: 50px;
+}
+
+.stock-box {
+    border-left: none;
+}
+
+.stock-box span, .sku-box span, .price-box span, .mayorista-box span {
+    font-size: 10px;
+    text-transform: uppercase;
+    color: #ddd;
+    margin-bottom: 4px;
+    line-height: 1.2;
+    white-space: pre-line; /* IMPORTANTE: Respeta los Alt+Enter del Excel */
+}
+
+/* --- CLASE ESPECÍFICA PARA EL PRECIO OPCIONAL --- */
+.price-box.opcional {
+    background-color: #555;
+}
+
+/* --- COLORES DE TEXTO PERSONALIZADOS (GLOBALES) --- */
+.texto-rojo {
+    color: #ff6b6b;
+    font-weight: 800;
+}
+.texto-verde {
+    color: #69f0ae;
+    font-weight: 800;
+}
+.texto-tachado {
+    text-decoration: line-through;
+    color: #bbb;
+}
+
+/* --- LEYENDA FLOTANTE Y PIE DE PÁGINA --- */
+.site-footer {
+    background-color: white;
+    padding: 20px 0;
+    border-top: 1px solid #ddd;
+    margin-top: 40px;
+    font-size: 11px;
+    color: #333;
+}
+
+.footer-content {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.footer-left { flex: 2; }
+.footer-left ul { list-style: none; padding-left: 0; margin: 5px 0; }
+.footer-right { flex: 1; text-align: right; }
+.footer-right p { font-weight: bold; }
+
+.footer-logo {
+    background-color: #c0232c;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    padding: 15px 30px;
+    text-align: center;
+    margin-top: 10px;
+    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 10% 100%, 0% 50%);
+}
+
+.leyenda-ingreso {
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    font-size: 13px;
+    text-align: center;
+    margin: 0;
+    padding: 5px;
+    border-radius: 4px;
+    box-sizing: border-box;
+    background-color: rgba(255, 255, 255, 0.20); 
+    color: #878787 !important; 
+}
+
+.leyenda-flotante {
+    position: fixed;
+    z-index: 1000;
+    bottom: 20px;
+    left: 20px;
+    background-color: rgba(192, 35, 44, 0.75);
+    color: white;
+    padding: 12px 18px;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: bold;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.cerrar-leyenda {
+    position: absolute;
+    top: 15%;
+    right: 10px;
+    transform: translateY(-50%);
+    font-size: 22px;
+    line-height: 1;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    opacity: 0.7;
+}
+.cerrar-leyenda:hover { opacity: 1; }
+
+/* --- RESPONSIVE (Celulares) --- */
+@media (max-width : 1340px ){
+    .product-meta-info {
+        grid-template-columns: 1fr;
+    }
+
+    .stock-box, .sku-box, .price-box, .mayorista-box {
+        border-left: none;
+        border-top: 1px solid #888;
+        padding: 10px;
+    }
+    .stock-box { border-top: none; }
+
+    .product-main-info {
+        grid-template-columns: 1fr;
+        gap: 15px;
+        padding: 15px;
+    }
+
+    .product-details h2 { font-size: 20px; }
+
+    .sku-box, .mayorista-box {
+        border-left: none;
+        border-top: 1px solid #888;
+    }
+
+    .footer-content {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+    .footer-left, .footer-right { text-align: center; }
+
+    .leyenda-flotante {
+        font-size: 11px;
+        padding: 6px 10px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border-radius: 0; /* Corregido error de sintaxis */
+        box-shadow: none;
+        text-align: center;
+        background-color: rgba(192, 35, 44, 0.75);
+        padding-right: 60px;
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+}
