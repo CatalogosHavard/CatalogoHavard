@@ -1,4 +1,3 @@
-
 // --- ¡IMPORTANTE! ---
 const GOOGLE_SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQrmt-18wJiD1ByYj7Hsd9uUG7d3CQ3FDV4gApN2qI6zLHFRbdnKJgdbK6Y9E1hNJeqJTXe_I9j7fxE/pub?output=tsv';
 const API_STOCK_URL = 'https://script.google.com/macros/s/AKfycbzsOB_XdjnyGArMCmd0_X-oGuCl3lOzsmdNCxHLQSo2PKzrReJm4P69xpv07yp9s3CJLw/exec';
@@ -8,6 +7,9 @@ const API_STOCK_URL = 'https://script.google.com/macros/s/AKfycbzsOB_XdjnyGArMCm
 function formatearTexto(texto) {
     if (!texto) return "";
     let resultado = texto;
+    
+    // 0. Convertir saltos de línea (antes de aplicar formatos)
+    resultado = resultado.replace(/\n/g, '<br>');
     
     // 1. Rojo (*)
     resultado = resultado.replace(/\*(.*?)\*/g, '<span class="texto-rojo">$1</span>');
