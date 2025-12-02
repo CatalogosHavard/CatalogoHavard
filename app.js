@@ -56,7 +56,7 @@ fetch(GOOGLE_SHEET_URL)
             const celdas = filas[i].split('\t');
             if (!celdas[0] || celdas[0] === "") continue;
             
-            // --- LECTURA DE COLUMNAS ---
+            // --- LECTURA DE COLUMNAS (Actualizado) ---
             const title = formatearTexto(celdas[0]);
             const imagenUrl = celdas[1];
             const specsRaw = formatearTexto(celdas[2]);
@@ -69,11 +69,13 @@ fetch(GOOGLE_SHEET_URL)
             
             const leyendaOpcional = formatearTexto(celdas[8] || "");
             const precioOpcional = formatearTexto(celdas[9] || "");
-
             const ingresan = formatearTexto(celdas[10] || ""); 
 
-            // --- NUEVO: COLUMNA 11 (URL DEL LOGO DE LA MARCA) ---
-            const logoMarcaUrl = celdas[11]; 
+            const logoMarcaUrl = celdas[11]; // Columna L (Marca arriba-izq)
+            
+            // --- NUEVOS OVERLAYS ---
+            const overlayIzqUrl = celdas[12]; // Columna M (Abajo-Izq)
+            const overlayDerUrl = celdas[13]; // Columna N (Abajo-Der)
 
             const uniqueId = mla ? mla.trim() : `prod-${i}`;
 
@@ -81,13 +83,25 @@ fetch(GOOGLE_SHEET_URL)
             productoCard.className = 'producto-card';
             const specsHTML = parseSpecs(specsRaw);
 
-            // --- PREPARAR HTML DEL LOGO (Solo si existe en el excel) ---
+            // 1. HTML Logo Marca (General de la tarjeta)
             let htmlLogoMarca = '';
             if (logoMarcaUrl && logoMarcaUrl.trim() !== "") {
                 htmlLogoMarca = `<img src="${logoMarcaUrl.trim()}" class="marca-logo" alt="Marca">`;
             }
 
-            // --- LÓGICA DE PRECIO OPCIONAL ---
+            // 2. HTML Overlay Izquierdo (Abajo-Izq de la foto)
+            let htmlOverlayIzq = '';
+            if (overlayIzqUrl && overlayIzqUrl.trim() !== "") {
+                htmlOverlayIzq = `<img src="${overlayIzqUrl.trim()}" class="overlay-img overlay-bottom-left" alt="Info">`;
+            }
+
+            // 3. HTML Overlay Derecho (Abajo-Der de la foto)
+            let htmlOverlayDer = '';
+            if (overlayDerUrl && overlayDerUrl.trim() !== "") {
+                htmlOverlayDer = `<img src="${overlayDerUrl.trim()}" class="overlay-img overlay-bottom-right" alt="Info">`;
+            }
+
+            // 4. HTML Precio Opcional
             let htmlPrecioOpcional = '';
             if (celdas[9] && celdas[9].trim() !== "") {
                 htmlPrecioOpcional = `
@@ -98,13 +112,16 @@ fetch(GOOGLE_SHEET_URL)
                 `;
             }
 
+            // --- ARMADO DE LA TARJETA ---
             productoCard.innerHTML = `
-                ${htmlLogoMarca}
-
-                <div class="product-main-info">
+                ${htmlLogoMarca} <div class="product-main-info">
                     <div class="product-image">
                         <img src="${imagenUrl}" alt="${title || ''}">
-                        ${ (celdas[10] && celdas[10].trim() !== "") ? `<p class="leyenda-ingreso">Reingresan: ${ingresan}</p>` : '' }
+                        
+                        ${htmlOverlayIzq}
+                        ${htmlOverlayDer}
+                        
+                        ${ (ingresan && ingresan.trim() !== "") ? `<p class="leyenda-ingreso">Reingresan: ${ingresan}</p>` : '' }
                     </div>
                     <div class="product-details">
                         <h2>${title || ''}</h2>
@@ -139,7 +156,7 @@ fetch(GOOGLE_SHEET_URL)
                 </div>
             `;
             
-            // ... (El bloque del Fetch se queda IGUAL) ...
+            // ... (El bloque Fetch se mantiene IGUAL) ...
              (function(mlaParaBuscar, idUnico) {
                 if (!mlaParaBuscar || mlaParaBuscar === "") return;
                 fetch(API_STOCK_URL + "?mla=" + encodeURIComponent(mlaParaBuscar))
@@ -164,5 +181,6 @@ fetch(GOOGLE_SHEET_URL)
         console.error('¡Error al cargar el catálogo!', error);
         contenedor.innerHTML = '<p>Error al cargar productos. Intente más tarde.</p>';
     });
+
 
 
