@@ -256,7 +256,32 @@ header h1 {
     border-radius: 4px; /* (Opcional) Bordes redondeados */
     box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* (Opcional) Sombrita para que resalte */
 }
+.overlay-img {
+    position: absolute;
+    z-index: 20;    /* Por encima de la foto */
+    width: 60px;    /* Tamaño ajustable según tu gusto */
+    height: auto;
+    transition: transform 0.2s; /* Un pequeño efecto suave si quisieras animarlo */
+}
 
+/* Ubicación Abajo-Izquierda */
+.overlay-bottom-left {
+    bottom: 5px;
+    left: 5px;
+}
+
+/* Ubicación Abajo-Derecha */
+.overlay-bottom-right {
+    bottom: 5px;
+    right: 5px;
+}
+
+/* Ajuste Responsive: En celulares quizás quieras que sean un poco más chicos */
+@media (max-width : 768px ){
+    .overlay-img {
+        width: 45px;
+    }
+}
 /* --- RESPONSIVE (Celulares) --- */
 @media (max-width : 1340px ){
     .product-meta-info {
@@ -305,5 +330,6 @@ header h1 {
         padding-bottom: 20px;
     }
 }
+
 
 
