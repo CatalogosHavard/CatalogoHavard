@@ -243,6 +243,13 @@ header h1 {
     opacity: 0.7;
 }
 .cerrar-leyenda:hover { opacity: 1; }
+.marca-logo {
+    position: absolute;
+    top: 15px;      /* Separación desde arriba */
+    left: 15px;     /* Separación desde la izquierda */
+    width: 60px;    /* Tamaño del logo (ajústalo a tu gusto) */
+    height: auto;   /* Mantiene la proporción */
+    z-index: 50;    /* Se asegura de estar encima de la foto del producto */
 
 /* --- RESPONSIVE (Celulares) --- */
 @media (max-width : 1340px ){
@@ -292,3 +299,4 @@ header h1 {
         padding-bottom: 20px;
     }
 }
+
