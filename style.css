@@ -203,19 +203,16 @@ header h1 {
 }
 
 .leyenda-ingreso {
-    position: absolute;
-    bottom: 0px;
-    left: 0px;
-    right: 0px;
+    position: relative; /* Cambiado a relative para que esté debajo de la imagen */
+    display: block;
     font-size: 13px;
     text-align: center;
-    margin: 0;
+    margin: 5px 0 0 0;
     padding: 5px;
     border-radius: 4px;
     box-sizing: border-box;
     background-color: rgba(255, 255, 255, 0.20); 
     color: #878787 !important;
-    z-index: 10;
     width: 100%;
 }
 
