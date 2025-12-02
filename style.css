@@ -38,6 +38,7 @@ header h1 {
 
 /* --- 1. La Ficha de Producto Entera --- */
 .producto-card {
+    position: relative;
     background-color: white;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     border-left: 1px solid #ddd;
@@ -244,12 +245,17 @@ header h1 {
 }
 .cerrar-leyenda:hover { opacity: 1; }
 .marca-logo {
-    position: absolute;
-    top: 15px;      /* Separación desde arriba */
-    left: 15px;     /* Separación desde la izquierda */
-    width: 60px;    /* Tamaño del logo (ajústalo a tu gusto) */
-    height: auto;   /* Mantiene la proporción */
-    z-index: 50;    /* Se asegura de estar encima de la foto del producto */
+    position: absolute; /* Flota sobre la tarjeta */
+    top: 10px;          /* Separación del techo de la tarjeta */
+    left: 10px;         /* Separación de la pared izquierda */
+    width: 70px;        /* Tamaño del logo (ajústalo si lo quieres más grande) */
+    height: auto;       /* Mantiene la proporción */
+    z-index: 10;        /* Se asegura de estar encima de todo */
+    background-color: white; /* (Opcional) Fondo blanco por si el logo es PNG transparente */
+    padding: 5px;       /* (Opcional) Un poco de aire alrededor */
+    border-radius: 4px; /* (Opcional) Bordes redondeados */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* (Opcional) Sombrita para que resalte */
+}
 
 /* --- RESPONSIVE (Celulares) --- */
 @media (max-width : 1340px ){
@@ -299,4 +305,5 @@ header h1 {
         padding-bottom: 20px;
     }
 }
+
 
