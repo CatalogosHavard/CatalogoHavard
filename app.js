@@ -3,21 +3,14 @@ const GOOGLE_SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQrmt-
 const API_STOCK_URL = 'https://script.google.com/macros/s/AKfycbzsOB_XdjnyGArMCmd0_X-oGuCl3lOzsmdNCxHLQSo2PKzrReJm4P69xpv07yp9s3CJLw/exec';
 // ---------------------
 
-// Función para colores y tachado (MOVIDA AL INICIO para usarla en todas partes)
+// Función para colores y tachado
 function formatearTexto(texto) {
     if (!texto) return "";
     let resultado = texto;
-    
-    // 0. Convertir saltos de línea (antes de aplicar formatos)
     resultado = resultado.replace(/\n/g, '<br>');
-    
-    // 1. Rojo (*)
     resultado = resultado.replace(/\*(.*?)\*/g, '<span class="texto-rojo">$1</span>');
-    // 2. Verde (_)
     resultado = resultado.replace(/_(.*?)_/g, '<span class="texto-verde">$1</span>');
-    // 3. Tachado (~)
     resultado = resultado.replace(/~(.*?)~/g, '<span class="texto-tachado">$1</span>');
-    
     return resultado;
 }
 
@@ -56,7 +49,7 @@ fetch(GOOGLE_SHEET_URL)
             const celdas = filas[i].split('\t');
             if (!celdas[0] || celdas[0] === "") continue;
             
-            // --- LECTURA DE COLUMNAS (Actualizado) ---
+            // --- LECTURA DE COLUMNAS ---
             const title = formatearTexto(celdas[0]);
             const imagenUrl = celdas[1];
             const specsRaw = formatearTexto(celdas[2]);
@@ -71,11 +64,10 @@ fetch(GOOGLE_SHEET_URL)
             const precioOpcional = formatearTexto(celdas[9] || "");
             const ingresan = formatearTexto(celdas[10] || ""); 
 
-            const logoMarcaUrl = celdas[11]; // Columna L (Marca arriba-izq)
-            
-            // --- NUEVOS OVERLAYS ---
-            const overlayIzqUrl = celdas[12]; // Columna M (Abajo-Izq)
-            const overlayDerUrl = celdas[13]; // Columna N (Abajo-Der)
+            // Logos y Overlays (Columnas L, M, N)
+            const logoMarcaUrl = celdas[11]; 
+            const overlayIzqUrl = celdas[12]; 
+            const overlayDerUrl = celdas[13]; 
 
             const uniqueId = mla ? mla.trim() : `prod-${i}`;
 
@@ -83,25 +75,24 @@ fetch(GOOGLE_SHEET_URL)
             productoCard.className = 'producto-card';
             const specsHTML = parseSpecs(specsRaw);
 
-            // 1. HTML Logo Marca (General de la tarjeta)
+            // 1. Logo Marca (General)
             let htmlLogoMarca = '';
             if (logoMarcaUrl && logoMarcaUrl.trim() !== "") {
                 htmlLogoMarca = `<img src="${logoMarcaUrl.trim()}" class="marca-logo" alt="Marca">`;
             }
 
-            // 2. HTML Overlay Izquierdo (Abajo-Izq de la foto)
+            // 2. Overlays de Imagen (Abajo)
             let htmlOverlayIzq = '';
             if (overlayIzqUrl && overlayIzqUrl.trim() !== "") {
                 htmlOverlayIzq = `<img src="${overlayIzqUrl.trim()}" class="overlay-img overlay-bottom-left" alt="Info">`;
             }
 
-            // 3. HTML Overlay Derecho (Abajo-Der de la foto)
             let htmlOverlayDer = '';
             if (overlayDerUrl && overlayDerUrl.trim() !== "") {
                 htmlOverlayDer = `<img src="${overlayDerUrl.trim()}" class="overlay-img overlay-bottom-right" alt="Info">`;
             }
 
-            // 4. HTML Precio Opcional
+            // 3. Precio Opcional
             let htmlPrecioOpcional = '';
             if (celdas[9] && celdas[9].trim() !== "") {
                 htmlPrecioOpcional = `
@@ -114,7 +105,9 @@ fetch(GOOGLE_SHEET_URL)
 
             // --- ARMADO DE LA TARJETA ---
             productoCard.innerHTML = `
-                ${htmlLogoMarca} <div class="product-main-info">
+                ${htmlLogoMarca}
+
+                <div class="product-main-info">
                     <div class="product-image">
                         <img src="${imagenUrl}" alt="${title || ''}">
                         
@@ -156,7 +149,7 @@ fetch(GOOGLE_SHEET_URL)
                 </div>
             `;
             
-            // ... (El bloque Fetch se mantiene IGUAL) ...
+            // --- Fetch Stock/SKU ---
              (function(mlaParaBuscar, idUnico) {
                 if (!mlaParaBuscar || mlaParaBuscar === "") return;
                 fetch(API_STOCK_URL + "?mla=" + encodeURIComponent(mlaParaBuscar))
@@ -181,6 +174,3 @@ fetch(GOOGLE_SHEET_URL)
         console.error('¡Error al cargar el catálogo!', error);
         contenedor.innerHTML = '<p>Error al cargar productos. Intente más tarde.</p>';
     });
-
-
-
