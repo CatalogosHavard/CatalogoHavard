@@ -38,7 +38,7 @@ header h1 {
 
 /* --- 1. La Ficha de Producto Entera --- */
 .producto-card {
-    position: relative;
+    position: relative; /* IMPORTANTE: Para que el logo de MARCA se quede en la tarjeta */
     background-color: white;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     border-left: 1px solid #ddd;
@@ -47,6 +47,20 @@ header h1 {
     border-top: 5px solid #ddd;
     border-radius: 8px;
     overflow: hidden;
+}
+
+/* --- ESTILO DEL LOGO FLOTANTE (MARCA ARRIBA) --- */
+.marca-logo {
+    position: absolute; 
+    top: 10px;          
+    left: 10px;         
+    width: 70px;        
+    height: auto;       
+    z-index: 50;        
+    background-color: white; 
+    padding: 5px;       
+    border-radius: 4px; 
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
 }
 
 /* --- 2. Sección Superior (Imagen + Specs) --- */
@@ -58,13 +72,34 @@ header h1 {
 }
 
 .product-image {
-    position: relative; /* Clave: para que la leyenda flote DENTRO de esta caja */
+    position: relative; /* IMPORTANTE: Para que los overlays de ABAJO se queden en la foto */
 }
 
 .product-image img {
     width: 100%;
     height: auto;
+    display: block; /* Ayuda a evitar espacios extra abajo */
 }
+
+/* --- OVERLAYS SOBRE LA IMAGEN (ABAJO) --- */
+/* Esta es la parte que faltaba para que no se centren */
+.overlay-img {
+    position: absolute; /* Esto los saca del flujo normal */
+    z-index: 20;    
+    width: 60px;    
+    height: auto;
+}
+
+.overlay-bottom-left {
+    bottom: 5px;
+    left: 5px;
+}
+
+.overlay-bottom-right {
+    bottom: 5px;
+    right: 5px;
+}
+
 
 .product-details h2 {
     margin-top: 0;
@@ -123,8 +158,7 @@ header h1 {
     color: #ddd;
     margin-bottom: 4px;
     line-height: 1.2;
-    white-space: normal; /* Cambiado para que funcione con <br> */
-    display: block; /* Asegurar que se comporte como bloque */
+    white-space: pre-line; 
 }
 
 /* --- CLASE ESPECÍFICA PARA EL PRECIO OPCIONAL --- */
@@ -132,41 +166,15 @@ header h1 {
     background-color: #555;
 }
 
-/* --- COLORES DE TEXTO PERSONALIZADOS (MEJORADOS CON !important) --- */
-.texto-rojo {
-    color: #ff6b6b !important;
-    font-weight: 800 !important;
-}
+/* --- COLORES DE TEXTO PERSONALIZADOS --- */
+.texto-rojo { color: #ff6b6b !important; font-weight: 800 !important; }
+.texto-verde { color: #51ff00 !important; font-weight: 800 !important; }
+.texto-tachado { text-decoration: line-through !important; color: #bbb !important; }
 
-.texto-verde {
-    color: #51ff00 !important;
-    font-weight: 800 !important;
-}
-
-.texto-tachado {
-    text-decoration: line-through !important;
-    color: #bbb !important;
-}
-
-/* Asegurar que funcionen también dentro de las cajas de precios */
-.price-box .texto-rojo,
-.stock-box .texto-rojo,
-.sku-box .texto-rojo {
-    color: #ff6b6b !important;
-}
-
-.price-box .texto-verde,
-.stock-box .texto-verde,
-.sku-box .texto-verde {
-    color: #51ff00 !important;
-}
-
-.price-box .texto-tachado,
-.stock-box .texto-tachado,
-.sku-box .texto-tachado {
-    text-decoration: line-through !important;
-    color: #bbb !important;
-}
+/* Asegurar que funcionen dentro de las cajas */
+.price-box .texto-rojo, .stock-box .texto-rojo, .sku-box .texto-rojo { color: #ff6b6b !important; }
+.price-box .texto-verde, .stock-box .texto-verde, .sku-box .texto-verde { color: #51ff00 !important; }
+.price-box .texto-tachado, .stock-box .texto-tachado, .sku-box .texto-tachado { text-decoration: line-through !important; color: #bbb !important; }
 
 /* --- LEYENDA FLOTANTE Y PIE DE PÁGINA --- */
 .site-footer {
@@ -244,50 +252,11 @@ header h1 {
     opacity: 0.7;
 }
 .cerrar-leyenda:hover { opacity: 1; }
-.marca-logo {
-    position: absolute; /* Flota sobre la tarjeta */
-    top: 10px;          /* Separación del techo de la tarjeta */
-    left: 10px;         /* Separación de la pared izquierda */
-    width: 70px;        /* Tamaño del logo (ajústalo si lo quieres más grande) */
-    height: auto;       /* Mantiene la proporción */
-    z-index: 10;        /* Se asegura de estar encima de todo */
-    background-color: white; /* (Opcional) Fondo blanco por si el logo es PNG transparente */
-    padding: 5px;       /* (Opcional) Un poco de aire alrededor */
-    border-radius: 4px; /* (Opcional) Bordes redondeados */
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* (Opcional) Sombrita para que resalte */
-}
-.overlay-img {
-    position: absolute;
-    z-index: 20;    /* Por encima de la foto */
-    width: 60px;    /* Tamaño ajustable según tu gusto */
-    height: auto;
-    transition: transform 0.2s; /* Un pequeño efecto suave si quisieras animarlo */
-}
 
-/* Ubicación Abajo-Izquierda */
-.overlay-bottom-left {
-    bottom: 5px;
-    left: 5px;
-}
-
-/* Ubicación Abajo-Derecha */
-.overlay-bottom-right {
-    bottom: 5px;
-    right: 5px;
-}
-
-/* Ajuste Responsive: En celulares quizás quieras que sean un poco más chicos */
-@media (max-width : 768px ){
-    .overlay-img {
-        width: 45px;
-    }
-}
 /* --- RESPONSIVE (Celulares) --- */
 @media (max-width : 1340px ){
-    .product-meta-info {
-        grid-template-columns: 1fr;
-    }
-
+    .product-meta-info { grid-template-columns: 1fr; }
+    
     .stock-box, .sku-box, .price-box, .mayorista-box {
         border-left: none;
         border-top: 1px solid #888;
@@ -300,13 +269,8 @@ header h1 {
         gap: 15px;
         padding: 15px;
     }
-
     .product-details h2 { font-size: 20px; }
-
-    .sku-box, .mayorista-box {
-        border-left: none;
-        border-top: 1px solid #888;
-    }
+    .sku-box, .mayorista-box { border-left: none; border-top: 1px solid #888; }
 
     .footer-content {
         flex-direction: column;
@@ -321,7 +285,7 @@ header h1 {
         left: 0;
         right: 0;
         bottom: 0;
-        border-radius: 0;
+        border-radius: 0; 
         box-shadow: none;
         text-align: center;
         background-color: rgba(192, 35, 44, 0.75);
@@ -329,7 +293,12 @@ header h1 {
         padding-top: 20px;
         padding-bottom: 20px;
     }
+    
+    /* Ajuste de overlays para celular */
+    .overlay-img {
+        width: 45px; 
+    }
+    .marca-logo {
+        width: 50px;
+    }
 }
-
-
-
