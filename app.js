@@ -3,14 +3,21 @@ const GOOGLE_SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQrmt-
 const API_STOCK_URL = 'https://script.google.com/macros/s/AKfycbzsOB_XdjnyGArMCmd0_X-oGuCl3lOzsmdNCxHLQSo2PKzrReJm4P69xpv07yp9s3CJLw/exec';
 // ---------------------
 
-// Función para colores y tachado
+// Función para colores y tachado (MOVIDA AL INICIO para usarla en todas partes)
 function formatearTexto(texto) {
     if (!texto) return "";
     let resultado = texto;
+    
+    // 0. Convertir saltos de línea (antes de aplicar formatos)
     resultado = resultado.replace(/\n/g, '<br>');
+    
+    // 1. Rojo (*)
     resultado = resultado.replace(/\*(.*?)\*/g, '<span class="texto-rojo">$1</span>');
+    // 2. Verde (_)
     resultado = resultado.replace(/_(.*?)_/g, '<span class="texto-verde">$1</span>');
+    // 3. Tachado (~)
     resultado = resultado.replace(/~(.*?)~/g, '<span class="texto-tachado">$1</span>');
+    
     return resultado;
 }
 
@@ -49,10 +56,10 @@ fetch(GOOGLE_SHEET_URL)
             const celdas = filas[i].split('\t');
             if (!celdas[0] || celdas[0] === "") continue;
             
-            // --- LECTURA DE COLUMNAS ---
+            // --- LECTURA DE COLUMNAS (APLICANDO FORMATO) ---
             const title = formatearTexto(celdas[0]);
             const imagenUrl = celdas[1];
-            const specsRaw = formatearTexto(celdas[2]);
+            const specsRaw = celdas[2]; // parseSpecs ya aplicará formato
             const mla = celdas[3];
             const stockPlaceholder = celdas[4];
             
@@ -62,12 +69,8 @@ fetch(GOOGLE_SHEET_URL)
             
             const leyendaOpcional = formatearTexto(celdas[8] || "");
             const precioOpcional = formatearTexto(celdas[9] || "");
-            const ingresan = formatearTexto(celdas[10] || ""); 
 
-            // Logos y Overlays (Columnas L, M, N)
-            const logoMarcaUrl = celdas[11]; 
-            const overlayIzqUrl = celdas[12]; 
-            const overlayDerUrl = celdas[13]; 
+            const ingresan = formatearTexto(celdas[10] || ""); 
 
             const uniqueId = mla ? mla.trim() : `prod-${i}`;
 
@@ -75,25 +78,10 @@ fetch(GOOGLE_SHEET_URL)
             productoCard.className = 'producto-card';
             const specsHTML = parseSpecs(specsRaw);
 
-            // 1. Logo Marca (General)
-            let htmlLogoMarca = '';
-            if (logoMarcaUrl && logoMarcaUrl.trim() !== "") {
-                htmlLogoMarca = `<img src="${logoMarcaUrl.trim()}" class="marca-logo" alt="Marca">`;
-            }
-
-            // 2. Overlays de Imagen (Abajo)
-            let htmlOverlayIzq = '';
-            if (overlayIzqUrl && overlayIzqUrl.trim() !== "") {
-                htmlOverlayIzq = `<img src="${overlayIzqUrl.trim()}" class="overlay-img overlay-bottom-left" alt="Info">`;
-            }
-
-            let htmlOverlayDer = '';
-            if (overlayDerUrl && overlayDerUrl.trim() !== "") {
-                htmlOverlayDer = `<img src="${overlayDerUrl.trim()}" class="overlay-img overlay-bottom-right" alt="Info">`;
-            }
-
-            // 3. Precio Opcional
+            // --- LÓGICA DE VISUALIZACIÓN ---
             let htmlPrecioOpcional = '';
+            
+            // Solo mostramos la caja opcional si hay precio
             if (celdas[9] && celdas[9].trim() !== "") {
                 htmlPrecioOpcional = `
                     <div class="price-box opcional">
@@ -103,18 +91,11 @@ fetch(GOOGLE_SHEET_URL)
                 `;
             }
 
-            // --- ARMADO DE LA TARJETA ---
             productoCard.innerHTML = `
-                ${htmlLogoMarca}
-
                 <div class="product-main-info">
                     <div class="product-image">
                         <img src="${imagenUrl}" alt="${title || ''}">
-                        
-                        ${htmlOverlayIzq}
-                        ${htmlOverlayDer}
-                        
-                        ${ (ingresan && ingresan.trim() !== "") ? `<p class="leyenda-ingreso">Reingresan: ${ingresan}</p>` : '' }
+                        ${ (celdas[10] && celdas[10].trim() !== "") ? `<p class="leyenda-ingreso">Reingresan: ${ingresan}</p>` : '' }
                     </div>
                     <div class="product-details">
                         <h2>${title || ''}</h2>
