@@ -56,10 +56,10 @@ fetch(GOOGLE_SHEET_URL)
             const celdas = filas[i].split('\t');
             if (!celdas[0] || celdas[0] === "") continue;
             
-            // --- LECTURA DE COLUMNAS (APLICANDO FORMATO) ---
+            // --- LECTURA DE COLUMNAS ---
             const title = formatearTexto(celdas[0]);
             const imagenUrl = celdas[1];
-            const specsRaw = formatearTexto(celdas[2]); // parseSpecs ya aplicará formato
+            const specsRaw = formatearTexto(celdas[2]);
             const mla = celdas[3];
             const stockPlaceholder = celdas[4];
             
@@ -72,16 +72,23 @@ fetch(GOOGLE_SHEET_URL)
 
             const ingresan = formatearTexto(celdas[10] || ""); 
 
+            // --- NUEVO: COLUMNA 11 (URL DEL LOGO DE LA MARCA) ---
+            const logoMarcaUrl = celdas[11]; 
+
             const uniqueId = mla ? mla.trim() : `prod-${i}`;
 
             const productoCard = document.createElement('div');
             productoCard.className = 'producto-card';
             const specsHTML = parseSpecs(specsRaw);
 
-            // --- LÓGICA DE VISUALIZACIÓN ---
+            // --- PREPARAR HTML DEL LOGO (Solo si existe en el excel) ---
+            let htmlLogoMarca = '';
+            if (logoMarcaUrl && logoMarcaUrl.trim() !== "") {
+                htmlLogoMarca = `<img src="${logoMarcaUrl.trim()}" class="marca-logo" alt="Marca">`;
+            }
+
+            // --- LÓGICA DE PRECIO OPCIONAL ---
             let htmlPrecioOpcional = '';
-            
-            // Solo mostramos la caja opcional si hay precio
             if (celdas[9] && celdas[9].trim() !== "") {
                 htmlPrecioOpcional = `
                     <div class="price-box opcional">
@@ -92,6 +99,8 @@ fetch(GOOGLE_SHEET_URL)
             }
 
             productoCard.innerHTML = `
+                ${htmlLogoMarca}
+
                 <div class="product-main-info">
                     <div class="product-image">
                         <img src="${imagenUrl}" alt="${title || ''}">
@@ -130,7 +139,7 @@ fetch(GOOGLE_SHEET_URL)
                 </div>
             `;
             
-            // --- Fetch Stock/SKU ---
+            // ... (El bloque del Fetch se queda IGUAL) ...
              (function(mlaParaBuscar, idUnico) {
                 if (!mlaParaBuscar || mlaParaBuscar === "") return;
                 fetch(API_STOCK_URL + "?mla=" + encodeURIComponent(mlaParaBuscar))
@@ -155,4 +164,5 @@ fetch(GOOGLE_SHEET_URL)
         console.error('¡Error al cargar el catálogo!', error);
         contenedor.innerHTML = '<p>Error al cargar productos. Intente más tarde.</p>';
     });
+
 
