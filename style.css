@@ -38,6 +38,7 @@ header h1 {
 
 /* --- 1. La Ficha de Producto Entera --- */
 .producto-card {
+    position: relative; /* IMPORTANTE: Para que el logo de MARCA flote */
     background-color: white;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     border-left: 1px solid #ddd;
@@ -46,6 +47,20 @@ header h1 {
     border-top: 5px solid #ddd;
     border-radius: 8px;
     overflow: hidden;
+}
+
+/* --- LOGO DE MARCA (Arriba izquierda de la tarjeta) --- */
+.marca-logo {
+    position: absolute; 
+    top: 10px;          
+    left: 10px;         
+    width: 70px;        
+    height: auto;       
+    z-index: 100;       
+    background-color: white; 
+    padding: 5px;       
+    border-radius: 4px; 
+    box-shadow: 0 2px 4px rgba(0,0,0,0.15); 
 }
 
 /* --- 2. Sección Superior (Imagen + Specs) --- */
@@ -57,12 +72,49 @@ header h1 {
 }
 
 .product-image {
-    position: relative; /* Clave: para que la leyenda flote DENTRO de esta caja */
+    position: relative; /* IMPORTANTE: Para que los overlays se posicionen aquí */
+    display: block;
 }
 
-.product-image img {
+.product-image > img:first-child {
     width: 100%;
     height: auto;
+    display: block;
+}
+
+/* --- OVERLAYS TIPO CUCARDA (Esquinas inferiores sobre la imagen) --- */
+.overlay-img {
+    position: absolute !important; 
+    z-index: 50;    
+    width: 80px;    
+    height: auto;
+    display: block !important;
+}
+
+.overlay-bottom-left {
+    bottom: 10px !important;
+    left: 10px !important;
+}
+
+.overlay-bottom-right {
+    bottom: 10px !important;
+    right: 10px !important;
+}
+
+/* --- LEYENDA REINGRESAN (Debajo de la imagen) --- */
+.leyenda-ingreso {
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    font-size: 13px;
+    text-align: center;
+    margin: 0;
+    padding: 5px;
+    background-color: rgba(255, 255, 255, 0.85); 
+    color: #878787 !important;
+    z-index: 30;
+    width: 100%;
 }
 
 .product-details h2 {
@@ -122,8 +174,8 @@ header h1 {
     color: #ddd;
     margin-bottom: 4px;
     line-height: 1.2;
-    white-space: normal; /* Cambiado para que funcione con <br> */
-    display: block; /* Asegurar que se comporte como bloque */
+    white-space: normal;
+    display: block;
 }
 
 /* --- CLASE ESPECÍFICA PARA EL PRECIO OPCIONAL --- */
@@ -131,40 +183,16 @@ header h1 {
     background-color: #555;
 }
 
-/* --- COLORES DE TEXTO PERSONALIZADOS (MEJORADOS CON !important) --- */
-.texto-rojo {
-    color: #ff6b6b !important;
-    font-weight: 800 !important;
-}
+/* --- COLORES DE TEXTO PERSONALIZADOS --- */
+.texto-rojo { color: #ff6b6b !important; font-weight: 800 !important; }
+.texto-verde { color: #51ff00 !important; font-weight: 800 !important; }
+.texto-tachado { text-decoration: line-through !important; color: #bbb !important; }
 
-.texto-verde {
-    color: #51ff00 !important;
-    font-weight: 800 !important;
-}
-
-.texto-tachado {
-    text-decoration: line-through !important;
-    color: #bbb !important;
-}
-
-/* Asegurar que funcionen también dentro de las cajas de precios */
-.price-box .texto-rojo,
-.stock-box .texto-rojo,
-.sku-box .texto-rojo {
-    color: #ff6b6b !important;
-}
-
-.price-box .texto-verde,
-.stock-box .texto-verde,
-.sku-box .texto-verde {
-    color: #51ff00 !important;
-}
-
-.price-box .texto-tachado,
-.stock-box .texto-tachado,
-.sku-box .texto-tachado {
-    text-decoration: line-through !important;
-    color: #bbb !important;
+/* Asegurar que funcionen dentro de las cajas */
+.price-box .texto-rojo, .stock-box .texto-rojo, .sku-box .texto-rojo { color: #ff6b6b !important; }
+.price-box .texto-verde, .stock-box .texto-verde, .sku-box .texto-verde { color: #51ff00 !important; }
+.price-box .texto-tachado, .stock-box .texto-tachado, .sku-box .texto-tachado { 
+    text-decoration: line-through !important; color: #bbb !important; 
 }
 
 /* --- LEYENDA FLOTANTE Y PIE DE PÁGINA --- */
@@ -202,20 +230,6 @@ header h1 {
     clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 10% 100%, 0% 50%);
 }
 
-.leyenda-ingreso {
-    position: relative; /* Cambiado a relative para que esté debajo de la imagen */
-    display: block;
-    font-size: 13px;
-    text-align: center;
-    margin: 5px 0 0 0;
-    padding: 5px;
-    border-radius: 4px;
-    box-sizing: border-box;
-    background-color: rgba(255, 255, 255, 0.20); 
-    color: #878787 !important;
-    width: 100%;
-}
-
 .leyenda-flotante {
     position: fixed;
     z-index: 1000;
@@ -246,10 +260,8 @@ header h1 {
 
 /* --- RESPONSIVE (Celulares) --- */
 @media (max-width : 1340px ){
-    .product-meta-info {
-        grid-template-columns: 1fr;
-    }
-
+    .product-meta-info { grid-template-columns: 1fr; }
+    
     .stock-box, .sku-box, .price-box, .mayorista-box {
         border-left: none;
         border-top: 1px solid #888;
@@ -262,13 +274,9 @@ header h1 {
         gap: 15px;
         padding: 15px;
     }
-
+    
     .product-details h2 { font-size: 20px; }
-
-    .sku-box, .mayorista-box {
-        border-left: none;
-        border-top: 1px solid #888;
-    }
+    .sku-box, .mayorista-box { border-left: none; border-top: 1px solid #888; }
 
     .footer-content {
         flex-direction: column;
@@ -291,4 +299,8 @@ header h1 {
         padding-top: 20px;
         padding-bottom: 20px;
     }
+    
+    /* Ajustes para celular */
+    .overlay-img { width: 60px; }
+    .marca-logo { width: 55px; }
 }
