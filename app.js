@@ -22,13 +22,23 @@ function parseSpecs(specsString) {
 
     return specsString.split('|')
         .map(spec => {
+            // Verificar si tiene formato especial (* _ ~) ANTES de buscar los dos puntos
+            const tieneFormato = /[\*_~]/.test(spec);
+            
+            if (tieneFormato) {
+                // Si tiene formato, aplicar a todo sin separar por dos puntos
+                return `<li>${formatearTexto(spec)}</li>`;
+            }
+            
+            // Si NO tiene formato, usar la lógica normal de clave:valor
             const parts = spec.split(':');
             if (parts.length < 2) {
-                return `<li>${formatearTexto(spec)}</li>`; 
+                return `<li>${spec}</li>`; 
             }
+            
             const key = parts[0];
             const value = parts.slice(1).join(':');
-            return `<li><strong>${formatearTexto(key)}:</strong> ${formatearTexto(value)}</li>`;
+            return `<li><strong>${key}:</strong> ${value}</li>`;
         })
         .join('');
 }
