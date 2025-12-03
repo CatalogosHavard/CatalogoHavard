@@ -88,8 +88,7 @@ header h1 {
     z-index: 50;    
     width: 80px;    
     height: auto;
-    display: block !important;
-    padding: 5px;       
+    display: block !important;       
     border-radius: 4px; 
     box-shadow: 0 2px 4px rgba(0,0,0,0.15);
 }
@@ -356,4 +355,5 @@ strong .texto-tachado, .texto-tachado strong {
     .overlay-img { width: 60px; }
     .marca-logo { width: 55px; }
 }
+
 
