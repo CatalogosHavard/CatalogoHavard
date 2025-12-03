@@ -135,10 +135,27 @@ header h1 {
 
 .specs-list li {
     margin-bottom: 8px;
+    color: #444; /* Color por defecto */
 }
 
 .specs-list li strong {
     color: #000;
+}
+
+/* IMPORTANTE: Forzar colores personalizados en las specs */
+.specs-list .texto-rojo {
+    color: #ff6b6b !important;
+    font-weight: 800 !important;
+}
+
+.specs-list .texto-verde {
+    color: #51ff00 !important;
+    font-weight: 800 !important;
+}
+
+.specs-list .texto-tachado {
+    text-decoration: line-through !important;
+    color: #bbb !important;
 }
 
 /* --- 3. Sección Inferior (Stock, SKU, Precios) --- */
@@ -184,15 +201,47 @@ header h1 {
 }
 
 /* --- COLORES DE TEXTO PERSONALIZADOS --- */
-.texto-rojo { color: #ff6b6b !important; font-weight: 800 !important; }
-.texto-verde { color: #51ff00 !important; font-weight: 800 !important; }
-.texto-tachado { text-decoration: line-through !important; color: #bbb !important; }
+.texto-rojo { 
+    color: #ff6b6b !important; 
+    font-weight: 800 !important; 
+}
+
+.texto-verde { 
+    color: #51ff00 !important; 
+    font-weight: 800 !important; 
+}
+
+.texto-tachado { 
+    text-decoration: line-through !important; 
+    color: #bbb !important; 
+}
 
 /* Asegurar que funcionen dentro de las cajas */
-.price-box .texto-rojo, .stock-box .texto-rojo, .sku-box .texto-rojo { color: #ff6b6b !important; }
-.price-box .texto-verde, .stock-box .texto-verde, .sku-box .texto-verde { color: #51ff00 !important; }
+.price-box .texto-rojo, .stock-box .texto-rojo, .sku-box .texto-rojo { 
+    color: #ff6b6b !important; 
+}
+
+.price-box .texto-verde, .stock-box .texto-verde, .sku-box .texto-verde { 
+    color: #51ff00 !important; 
+}
+
 .price-box .texto-tachado, .stock-box .texto-tachado, .sku-box .texto-tachado { 
-    text-decoration: line-through !important; color: #bbb !important; 
+    text-decoration: line-through !important; 
+    color: #bbb !important; 
+}
+
+/* Asegurar que funcionen dentro de strong */
+strong .texto-rojo, .texto-rojo strong { 
+    color: #ff6b6b !important; 
+}
+
+strong .texto-verde, .texto-verde strong { 
+    color: #51ff00 !important; 
+}
+
+strong .texto-tachado, .texto-tachado strong { 
+    text-decoration: line-through !important; 
+    color: #bbb !important; 
 }
 
 /* --- LEYENDA FLOTANTE Y PIE DE PÁGINA --- */
