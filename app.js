@@ -157,23 +157,62 @@ fetch(GOOGLE_SHEET_URL)
                 </div>
             `;
             
-            // --- Fetch Stock/SKU ---
-             (function(mlaParaBuscar, idUnico) {
+            // --- Fetch Stock/SKU con reintentos y delay escalonado ---
+            (function(mlaParaBuscar, idUnico, indiceProducto, intentoActual = 0) {
                 if (!mlaParaBuscar || mlaParaBuscar === "") return;
-                fetch(API_STOCK_URL + "?mla=" + encodeURIComponent(mlaParaBuscar))
-                    .then(respuesta => respuesta.json())
-                    .then(data => {
-                        if (data.stock !== undefined) {
-                            const stockDiv = document.getElementById(`stock-${idUnico}`);
-                            if (stockDiv) stockDiv.textContent = data.stock;
-                        }
-                        if (data.sku !== undefined) {
-                            const skuDiv = document.getElementById(`sku-${idUnico}`);
-                            if (skuDiv) skuDiv.textContent = data.sku;
-                        }
-                    })
-                    .catch(error => console.warn('Error fetching data', error));
-            })(mla, uniqueId);
+                
+                const MAX_REINTENTOS = 3;
+                const TIMEOUT_MS = 10000; // 10 segundos
+                const DELAY_ENTRE_PRODUCTOS = 100; // 100ms entre cada producto
+                
+                // Delay inicial basado en el índice del producto
+                const delayInicial = indiceProducto * DELAY_ENTRE_PRODUCTOS;
+                
+                setTimeout(() => {
+                    // Crear promesa con timeout
+                    const fetchConTimeout = (url, timeout) => {
+                        return Promise.race([
+                            fetch(url),
+                            new Promise((_, reject) => 
+                                setTimeout(() => reject(new Error('Timeout')), timeout)
+                            )
+                        ]);
+                    };
+                    
+                    fetchConTimeout(API_STOCK_URL + "?mla=" + encodeURIComponent(mlaParaBuscar), TIMEOUT_MS)
+                        .then(respuesta => {
+                            if (!respuesta.ok) throw new Error(`HTTP ${respuesta.status}`);
+                            return respuesta.json();
+                        })
+                        .then(data => {
+                            if (data.stock !== undefined) {
+                                const stockDiv = document.getElementById(`stock-${idUnico}`);
+                                if (stockDiv) stockDiv.textContent = data.stock;
+                            }
+                            if (data.sku !== undefined) {
+                                const skuDiv = document.getElementById(`sku-${idUnico}`);
+                                if (skuDiv) skuDiv.textContent = data.sku;
+                            }
+                        })
+                        .catch(error => {
+                            console.warn(`Error fetching ${mlaParaBuscar} (intento ${intentoActual + 1}):`, error);
+                            
+                            // Reintentar si no hemos llegado al máximo
+                            if (intentoActual < MAX_REINTENTOS) {
+                                const delayReintento = 1500 * (intentoActual + 1); // 1.5s, 3s, 4.5s
+                                setTimeout(() => {
+                                    arguments.callee(mlaParaBuscar, idUnico, 0, intentoActual + 1);
+                                }, delayReintento);
+                            } else {
+                                // Después de 3 intentos, mostrar error
+                                const stockDiv = document.getElementById(`stock-${idUnico}`);
+                                const skuDiv = document.getElementById(`sku-${idUnico}`);
+                                if (stockDiv) stockDiv.textContent = '❌';
+                                if (skuDiv) skuDiv.textContent = '❌';
+                            }
+                        });
+                }, delayInicial);
+            })(mla, uniqueId, i);
 
             contenedor.appendChild(productoCard);
         }
