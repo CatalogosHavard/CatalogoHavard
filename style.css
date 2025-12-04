@@ -7,7 +7,7 @@ body {
 
 /* --- ESTILOS DEL HEADER (Banner) --- */
 header {
-    background-image: url("img/banner.svg");
+    background-image: url("img/bannerH.svg");
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
@@ -355,5 +355,6 @@ strong .texto-tachado, .texto-tachado strong {
     .overlay-img { width: 60px; }
     .marca-logo { width: 55px; }
 }
+
 
 
